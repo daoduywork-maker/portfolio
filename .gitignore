@@ -2,3 +2,6 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# Windows download markers (appear when copying files through WSL)
+*:Zone.Identifier
