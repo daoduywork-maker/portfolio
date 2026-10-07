@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import { site } from '../data/site.js';
+import { cv } from '../data/cv.js';
+import { url } from '../lib/url.js';
+---
+<Base title="Curriculum vitae" current="cv">
+  <section class="wrap cv-head">
+    <div>
+      <div class="eyebrow">Last updated {cv.updated}</div>
+      <h1 class="page-title">Curriculum vitae</h1>
+    </div>
+    <a class="btn btn-accent btn-lg" href={url('cv.pdf')} download="Duy-Dao-CV.pdf">Download PDF <Arrow kind="down" /></a>
+  </section>
+
+  <section class="cv-stage">
+    {cv.pages.map((sections, i) => (
+      <>
+        <div class="sheet">
+          {i === 0 && (
+            <div class="cv-name">
+              <strong>{site.name}</strong>
+              <span>{cv.contact}</span>
+            </div>
+          )}
+          {sections.map((s) => (
+            <div class="cv-section">
+              <h2>{s.heading}</h2>
+              {s.entries?.map((e) => (
+                <div>
+                  <div class="cv-line">
+                    {e.org && <span class="org">{e.org}</span>}
+                    {e.plain && <span>{e.plain}</span>}
+                    {e.place && <span>{e.place}</span>}
+                  </div>
+                  {(e.role || e.dates) && (
+                    <div class="cv-line"><span class="role">{e.role}</span><span>{e.dates}</span></div>
+                  )}
+                  {e.bullets && <ul>{e.bullets.map((b) => <li>{b}</li>)}</ul>}
+                </div>
+              ))}
+              {s.lines?.map((l) => <div>{l}</div>)}
+              {s.skills && (
+                <div class="cv-skills">
+                  {s.skills.map((k) => <div><strong>{k.label}:</strong> {k.value}</div>)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div class="sheet-label">Page {i + 1} of {cv.pages.length}</div>
+      </>
+    ))}
+  </section>
+</Base>

@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import Media from '../components/Media.astro';
+import { url } from '../lib/url.js';
+
+const papers = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Peer-reviewed research" current="research" footerLine="Questions about a paper? Write to me.">
+  <section class="wrap page-head">
+    <div class="eyebrow">Research</div>
+    <h1 class="page-title">Peer-reviewed research</h1>
+    <p class="lede">Published papers, newest first. Each one links to the article, the code, and the data behind the figures.</p>
+  </section>
+
+  <section class="wrap rows">
+    {papers.map((p) => (
+      <article class="row">
+        <div class="when">{p.data.year}</div>
+        <div class="body">
+          <div class="meta">
+            <span class="pill pill-research">Peer-reviewed research</span>
+            <span>{p.data.journal}</span>
+          </div>
+          <h2>{p.data.title}</h2>
+          <div class="authors">{p.data.authors}</div>
+          <p class="summary">{p.data.summary}</p>
+          <div class="links">
+            {p.data.links.map((l, i) => (
+              <a class={i === 0 ? 'text-link' : 'text-link plain'} href={l.href}>{l.label}{i === 0 && <Arrow kind="out" />}</a>
+            ))}
+          </div>
+        </div>
+        <Media figure={p.data.figure} label={p.data.figureLabel} alt={p.data.title} />
+      </article>
+    ))}
+    <div class="rows-foot">
+      <p>Work that is not yet published lives under Projects, with its code and notes.</p>
+      <a class="btn" href={url('projects/')}>See projects <Arrow /></a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,10 @@
+---
+// Shows a figure if one is set, otherwise a labelled placeholder box.
+import { url } from '../lib/url.js';
+const { figure, label = '[FIGURE]', alt = '', class: cls = '' } = Astro.props;
+---
+{figure ? (
+  <div class={`media ${cls}`}><img class="figure-img" src={url(figure)} alt={alt} loading="lazy" /></div>
+) : (
+  <div class={`media placeholder ${cls}`}>{label}</div>
+)}

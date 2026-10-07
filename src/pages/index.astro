@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import Media from '../components/Media.astro';
+import { site } from '../data/site.js';
+import { cv } from '../data/cv.js';
+import { url } from '../lib/url.js';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const papers = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+const lead = papers.find((p) => p.data.featured);
+---
+<Base>
+  <section class="wrap hero">
+    <div class="hero-text">
+      <div class="eyebrow">Computational materials science</div>
+      <h1>{site.tagline}</h1>
+      <div class="hero-copy">
+        <p class="lede">I am a graduate student at the School of Materials Science and Engineering, Tsinghua University. I study how point defects form and move in halide perovskites, starting with CsPbI₃.</p>
+        <p class="sub">My tools are density functional theory and molecular dynamics, and I am building toward machine-learned interatomic potentials to reach the length and time scales that defects need.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href={url('cv.pdf')} download="Duy-Dao-CV.pdf">Download CV <Arrow kind="down" /></a>
+          <a class="btn" href={url('projects/')}>See projects</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div id="lattice" class="lattice" role="img" aria-label="Rotating model of the cubic CsPbI₃ perovskite lattice, with an iodine vacancy hopping between sites"></div>
+      <div class="legend">
+        <span>CsPbI₃, cubic α phase</span>
+        <span><i style="width: 12px; height: 12px; border: 2px dashed var(--accent)"></i>I vacancy</span>
+        <span><i style="width: 12px; height: 12px; background: #8f9bab"></i>Cs</span>
+        <span><i style="width: 10px; height: 10px; background: var(--ink)"></i>Pb</span>
+        <span><i style="width: 8px; height: 8px; background: var(--accent)"></i>I</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="work">
+    <div class="wrap">
+      <div class="band-head">
+        <h2 class="section-title">Featured work</h2>
+        <a class="text-link plain" href={url('projects/')}>See all projects <Arrow /></a>
+      </div>
+
+      {lead && (
+        <article class="lead-card">
+          <Media figure={lead.data.figure} label={lead.data.figureLabel} alt={lead.data.title} />
+          <div class="body">
+            <div class="meta">
+              <span class="pill pill-research">Peer-reviewed research</span>
+              {lead.data.date && <span>{lead.data.date}</span>}
+              <span>{lead.data.journal}</span>
+            </div>
+            <h3>{lead.data.title}</h3>
+            <p>{lead.data.summary}</p>
+            <div class="links">
+              <a class="text-link" href={url('research/')}>Read <Arrow /></a>
+              <a class="text-link plain" href={url('research/')}>See all research</a>
+            </div>
+          </div>
+        </article>
+      )}
+
+      <div class="cards">
+        {featured.map((p) => (
+          <article class="card">
+            <Media figure={p.data.figure} label={p.data.figureLabel} alt={p.data.title} />
+            <div class="meta">
+              <span class="pill pill-project">Project</span>
+              <span>{p.data.status}</span>
+              {p.data.tags.map((t) => <span class="pill">{t}</span>)}
+            </div>
+            <h3><a href={url(`projects/${p.id}/`)}>{p.data.title}</a></h3>
+            <p>{p.data.summary}</p>
+            <a class="text-link" href={url(`projects/${p.id}/`)}>Read <Arrow /></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap cv-summary" id="cv">
+    <div class="intro">
+      <h2 class="section-title">Curriculum vitae</h2>
+      <p>The short version is here. The full CV has the complete list of research, skills and talks.</p>
+      <a class="btn" href={url('cv/')}>Open full CV</a>
+    </div>
+    <div class="entries">
+      {cv.summary.map((e) => (
+        <div class="cv-entry">
+          <div class="when">{e.when}</div>
+          <div class="what"><strong>{e.org}</strong><span>{e.what}</span></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    import '../scripts/lattice.js';
+  </script>
+</Base>
