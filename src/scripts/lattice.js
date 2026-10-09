@@ -217,7 +217,8 @@ function start(root) {
   function draw(tau, angle) {
     ct = Math.cos(angle); st = Math.sin(angle);
     const b = blend(tau);
-    const tilt = lerp(0.42, 1.0, b);
+    // Negative tilt looks down slightly from above; the MoS2 layer is seen nearly edge-on.
+    const tilt = lerp(-0.42, -0.26, b);
     cx = Math.cos(tilt); sx = Math.sin(tilt);
     host.dataset.phase = b < 0.5 ? 'a' : 'b';
 
