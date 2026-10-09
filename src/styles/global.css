@@ -94,6 +94,11 @@ h1, h2, h3, p { margin: 0; }
 .lattice .ring { aspect-ratio: 1 / 1; border-radius: 50%; border: 2px dashed var(--accent); }
 .legend { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 22px; font-family: var(--mono); font-size: 15px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 8px; }
+/* Two legends share one spot; the animation sets data-phase to show the right one. */
+.legends { display: grid; }
+.legends .legend { grid-area: 1 / 1; transition: opacity 0.4s; }
+.hero-visual[data-phase='a'] .legend[data-for='b'],
+.hero-visual[data-phase='b'] .legend[data-for='a'] { opacity: 0; visibility: hidden; }
 .legend i { display: inline-block; border-radius: 50%; }
 
 /* Home: featured work */

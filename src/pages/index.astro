@@ -26,14 +26,23 @@ const lead = papers.find((p) => p.data.featured);
         </div>
       </div>
     </div>
-    <div class="hero-visual">
-      <div id="lattice" class="lattice" role="img" aria-label="Rotating model of the cubic CsPbI₃ perovskite lattice, with an iodine vacancy hopping between sites"></div>
-      <div class="legend">
-        <span>CsPbI₃, cubic α phase</span>
-        <span><i style="width: 12px; height: 12px; border: 2px dashed var(--accent)"></i>I vacancy</span>
-        <span><i style="width: 12px; height: 12px; background: #8f9bab"></i>Cs</span>
-        <span><i style="width: 10px; height: 10px; background: var(--ink)"></i>Pb</span>
-        <span><i style="width: 8px; height: 8px; background: var(--accent)"></i>I</span>
+    <div class="hero-visual" data-phase="a">
+      <div id="lattice" class="lattice" role="img" aria-label="Animated atomic model. A cubic CsPbI₃ perovskite lattice rotates while an iodine vacancy hops between sites, then comes apart and reassembles as a single MoS₂ layer, where a sulfur atom leaves and platinum atoms cluster into the vacancy. The loop then returns to the perovskite."></div>
+      <div class="legends">
+        <div class="legend" data-for="a">
+          <span>CsPbI₃, cubic α phase</span>
+          <span><i style="width: 12px; height: 12px; border: 2px dashed var(--accent)"></i>I vacancy</span>
+          <span><i style="width: 12px; height: 12px; background: #8f9bab"></i>Cs</span>
+          <span><i style="width: 10px; height: 10px; background: var(--ink)"></i>Pb</span>
+          <span><i style="width: 8px; height: 8px; background: var(--accent)"></i>I</span>
+        </div>
+        <div class="legend" data-for="b">
+          <span>Pt cluster at an S vacancy in MoS₂</span>
+          <span><i style="width: 12px; height: 12px; border: 2px dashed var(--accent)"></i>S vacancy</span>
+          <span><i style="width: 11px; height: 11px; background: #d9731a"></i>Pt</span>
+          <span><i style="width: 10px; height: 10px; background: var(--ink)"></i>Mo</span>
+          <span><i style="width: 8px; height: 8px; background: var(--accent)"></i>S</span>
+        </div>
       </div>
     </div>
   </section>
